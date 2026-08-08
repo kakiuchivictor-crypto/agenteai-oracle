@@ -1,0 +1,39 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
+
+  frontend:
+    build: .
+    command: ["streamlit", "run", "frontend/streamlit_app/app.py", "--server.address", "0.0.0.0", "--server.port", "8501"]
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+    environment:
+      # Sobrescreve o valor do .env: dentro da rede do Docker Compose, o
+      # backend e alcancado pelo nome do servico, nao por localhost.
+      - API_BASE_URL=http://api:8000
+    depends_on:
+      - api
+    restart: unless-stopped
+
+  # Servico opcional do Ollama, para rodar o LLM_PROVIDER=ollama totalmente
+  # em containers. Ative com: docker compose --profile ollama up
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    profiles: ["ollama"]
+    restart: unless-stopped
+
+volumes:
+  ollama_data:

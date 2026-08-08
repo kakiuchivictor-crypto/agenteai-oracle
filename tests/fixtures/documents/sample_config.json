@@ -1,0 +1,28 @@
+{
+  "empresa": "Loja Exemplo",
+  "planos": {
+    "profissional": {
+      "preco": 199.9,
+      "limite_usuarios": 20
+    },
+    "empresarial": {
+      "preco": 499.9,
+      "limite_usuarios": 100
+    }
+  },
+  "regioes_atendidas": [
+    "Sudeste",
+    "Sul",
+    "Nordeste"
+  ],
+  "contatos": [
+    {
+      "nome": "Suporte",
+      "email": "suporte@example.com"
+    },
+    {
+      "nome": "Financeiro",
+      "email": "financeiro@example.com"
+    }
+  ]
+}

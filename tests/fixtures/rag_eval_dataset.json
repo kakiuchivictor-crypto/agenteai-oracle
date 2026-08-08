@@ -1,0 +1,32 @@
+[
+  {
+    "question": "Qual o prazo para solicitar reembolso?",
+    "expected_document": "sample_policy.pdf",
+    "expected_keywords": ["7 dias"]
+  },
+  {
+    "question": "Qual o prazo de analise para compras internacionais?",
+    "expected_document": "sample_policy.pdf",
+    "expected_keywords": ["14 dias"]
+  },
+  {
+    "question": "Quanto custa o plano profissional?",
+    "expected_document": "sample_plans.xlsx",
+    "expected_keywords": ["199"]
+  },
+  {
+    "question": "Quais formas de pagamento sao aceitas?",
+    "expected_document": "sample_page.html",
+    "expected_keywords": ["cartao", "boleto"]
+  },
+  {
+    "question": "Qual o preco da camiseta no estoque?",
+    "expected_document": "sample_data.csv",
+    "expected_keywords": ["49"]
+  },
+  {
+    "question": "Como funciona o programa de afiliados para revenda internacional na Antartida?",
+    "expected_document": null,
+    "expected_keywords": []
+  }
+]

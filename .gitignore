@@ -1,0 +1,49 @@
+# Ambiente e segredos
+.env
+.env.*
+!.env.example
+
+# Ambiente virtual
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+htmlcov/
+.coverage
+.coverage.*
+
+# Dados da aplicacao (nunca versionar documentos ou indices reais)
+data/uploads/*
+data/processed/*
+data/vector_store/*
+data/logs/*
+data/*.db
+data/*.db-journal
+!data/uploads/.gitkeep
+!data/processed/.gitkeep
+!data/vector_store/.gitkeep
+!data/logs/.gitkeep
+
+# Modelos baixados localmente (sentence-transformers / cross-encoder)
+.cache/
+models_cache/
+
+# IDE / SO
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Estado local de ferramentas de IA (nao faz parte do projeto)
+.claude/
+
+# Docker
+*.pid

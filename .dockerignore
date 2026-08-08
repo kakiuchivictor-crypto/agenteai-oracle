@@ -1,0 +1,36 @@
+# Segredos - NUNCA incluir na imagem
+.env
+.env.*
+!.env.example
+
+# Ambiente virtual e caches Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Dados locais (a imagem cria os diretorios vazios; dados reais vem de volume)
+data/uploads/*
+data/processed/*
+data/vector_store/*
+data/logs/*
+data/*.db
+!data/uploads/.gitkeep
+!data/processed/.gitkeep
+!data/vector_store/.gitkeep
+!data/logs/.gitkeep
+
+# Controle de versao e editor
+.git/
+.gitignore
+.vscode/
+.idea/
+
+# Documentacao que nao afeta a execucao (fixtures .md de teste sao mantidas)
+CHANGELOG.md
+Prompt_Mestre_*.pdf

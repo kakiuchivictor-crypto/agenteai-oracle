@@ -1,0 +1,68 @@
+# Tema do AxysAI — ver auditoria de UI/UX.
+# Paleta e tipografia aqui devem ficar em sincronia com os tokens em
+# frontend/streamlit_app/theme.py (o CSS injetado usa os mesmos valores
+# para os componentes que o Streamlit nao deixa temar por config, como
+# badges e cards). Se mudar uma cor aqui, mude tambem la.
+#
+# Acento primario (petrol/teal escuro) escolhido de proposito para fugir do
+# indigo/roxo-azulado padrao de dashboard SaaS/IA (ver auditoria). O verde de
+# sucesso foi deslocado para um tom mais "floresta" (menos azulado) para nao
+# colidir visualmente com o novo acento.
+
+[theme]
+font = "sans-serif"
+headingFont = "serif"
+codeFont = "monospace"
+baseRadius = "0.6rem"
+buttonRadius = "0.5rem"
+showSidebarBorder = true
+showWidgetBorder = true
+
+# Fallback caso o navegador nao reporte preferencia de claro/escuro.
+backgroundColor = "#FAFAF8"
+secondaryBackgroundColor = "#F1EFEA"
+textColor = "#1C1D1F"
+borderColor = "#E3E0D8"
+primaryColor = "#146661"
+linkColor = "#0E4F4B"
+
+greenColor = "#1F7A47"
+greenBackgroundColor = "#E6F4EA"
+greenTextColor = "#0F4425"
+orangeColor = "#9C6B12"
+orangeBackgroundColor = "#FBF1DD"
+orangeTextColor = "#5A3D0A"
+redColor = "#C6423B"
+redBackgroundColor = "#FBEAE8"
+redTextColor = "#6E211C"
+blueColor = "#2F6FAF"
+blueBackgroundColor = "#EAF2F9"
+blueTextColor = "#1A3F5C"
+
+[theme.light]
+backgroundColor = "#FAFAF8"
+secondaryBackgroundColor = "#F1EFEA"
+textColor = "#1C1D1F"
+borderColor = "#E3E0D8"
+primaryColor = "#146661"
+
+[theme.dark]
+backgroundColor = "#0C0E12"
+secondaryBackgroundColor = "#171B22"
+textColor = "#E8E9EC"
+borderColor = "#262B34"
+primaryColor = "#3FB8AC"
+linkColor = "#7FDCD0"
+
+greenColor = "#46B36B"
+greenBackgroundColor = "#12291C"
+greenTextColor = "#A6E6BE"
+orangeColor = "#E0A83E"
+orangeBackgroundColor = "#332608"
+orangeTextColor = "#F3CD8A"
+redColor = "#F0645C"
+redBackgroundColor = "#33191A"
+redTextColor = "#FBB0AB"
+blueColor = "#6FB3E8"
+blueBackgroundColor = "#12232F"
+blueTextColor = "#A9D4F5"
