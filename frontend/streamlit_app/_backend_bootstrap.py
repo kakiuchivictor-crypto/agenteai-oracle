@@ -66,10 +66,18 @@ def _api_already_running(base_url: str) -> bool:
 
 
 def _run_backend() -> None:
+    import subprocess
     import sys
 
     if str(_REPO_ROOT) not in sys.path:
         sys.path.insert(0, str(_REPO_ROOT))
+
+    # Mesmos passos do CMD do Dockerfile antes de subir a API: sem isso o
+    # banco fica sem tabelas (SQLite novo, criado do zero a cada deploy no
+    # Streamlit Cloud) e sem o usuario "sistema" usado para atribuir sessoes
+    # de chat/uploads quando nao ha login.
+    subprocess.run([sys.executable, "-m", "alembic", "upgrade", "head"], cwd=_REPO_ROOT, check=True)
+    subprocess.run([sys.executable, "scripts/seed_system_user.py"], cwd=_REPO_ROOT, check=True)
 
     import uvicorn
 
