@@ -3,3 +3,4 @@ tesseract-ocr-por
 poppler-utils
 libxml2-dev
 libxslt1-dev
+zlib1g-dev
