@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-import fitz  # PyMuPDF
+import pymupdf
 
 from app.core.exceptions import (
     CorruptedFileError,
@@ -34,7 +34,7 @@ class PDFLoader(DocumentLoader):
 
     def load(self, file_path: Path) -> ExtractedDocument:
         try:
-            document = fitz.open(file_path)
+            document = pymupdf.open(file_path)
         except Exception as exc:  # noqa: BLE001
             raise CorruptedFileError(f"Nao foi possivel abrir o PDF: {file_path.name}") from exc
 

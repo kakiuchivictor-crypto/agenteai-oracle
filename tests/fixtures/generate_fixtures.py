@@ -19,9 +19,9 @@ FIXTURES_DIR = Path(__file__).parent / "documents"
 
 
 def generate_pdf() -> None:
-    import fitz
+    import pymupdf
 
-    doc = fitz.open()
+    doc = pymupdf.open()
     page1 = doc.new_page()
     page1.insert_text(
         (72, 72),
@@ -40,9 +40,9 @@ def generate_pdf() -> None:
 
     # PDF sem nenhuma camada de texto (simula pagina escaneada) para testar
     # a deteccao de necessidade de OCR.
-    blank_doc = fitz.open()
+    blank_doc = pymupdf.open()
     blank_page = blank_doc.new_page()
-    blank_page.draw_rect(fitz.Rect(50, 50, 200, 200), fill=(0, 0, 0))
+    blank_page.draw_rect(pymupdf.Rect(50, 50, 200, 200), fill=(0, 0, 0))
     blank_doc.save(FIXTURES_DIR / "sample_scanned.pdf")
     blank_doc.close()
 
