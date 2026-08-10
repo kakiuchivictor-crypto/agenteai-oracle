@@ -17,7 +17,6 @@ from __future__ import annotations
 
 import os
 import threading
-import time
 from pathlib import Path
 
 import requests
@@ -65,6 +64,27 @@ def _api_already_running(base_url: str) -> bool:
         return False
 
 
+def _ensure_backend_app_package_importable() -> None:
+    """Registra o pacote `app/` (backend) em `sys.modules` via caminho
+    explicito, sem depender da ordem (racy) do `sys.path` — ver motivo em
+    `_run_backend`. Idempotente: reaproveita se ja estiver corretamente
+    carregado."""
+    import sys
+    from importlib.util import module_from_spec, spec_from_file_location
+
+    existing = sys.modules.get("app")
+    if existing is not None and hasattr(existing, "__path__"):
+        return
+
+    app_dir = _REPO_ROOT / "app"
+    spec = spec_from_file_location(
+        "app", app_dir / "__init__.py", submodule_search_locations=[str(app_dir)]
+    )
+    module = module_from_spec(spec)
+    sys.modules["app"] = module
+    spec.loader.exec_module(module)
+
+
 def _run_backend() -> None:
     import subprocess
     import sys
@@ -81,6 +101,16 @@ def _run_backend() -> None:
 
     import uvicorn
 
+    # `sys.path` e compartilhado entre threads, e o Streamlit reinsere a
+    # pasta do entrypoint (`frontend/streamlit_app`) na posicao 0 a cada
+    # rerun do script principal — inclusive enquanto esta thread roda em
+    # paralelo. Se isso acontecer bem no meio do `import app...` abaixo,
+    # "app" resolve para o `app.py` do Streamlit (um arquivo, nao pacote)
+    # em vez do pacote `app/` do backend, e quebra com "'app' is not a
+    # package". Carregar o pacote via caminho explicito evita depender da
+    # ordem (racy) do sys.path.
+    _ensure_backend_app_package_importable()
+
     from app.api.main import app as fastapi_app
 
     uvicorn.run(fastapi_app, host=_BACKEND_HOST, port=_BACKEND_PORT, log_level="warning")
@@ -92,7 +122,17 @@ def ensure_backend_running() -> None:
     So sobe a API em thread se ninguem responder em `API_BASE_URL` ainda —
     no Docker Compose e no dev local com uvicorn rodando a parte, a API ja
     esta de pe e isto vira um no-op; so no Streamlit Cloud (onde nao ha
-    processo separado) e que o fallback em thread entra em acao."""
+    processo separado) e que o fallback em thread entra em acao.
+
+    NAO espera a API ficar pronta antes de retornar (de proposito): o
+    Streamlit manda a lista classica de paginas (a da pasta `pages/`) para o
+    navegador assim que a sessao conecta, ANTES do script terminar de rodar.
+    `st.navigation()` so desliga essa lista classica quando o script chega
+    nela — se este bootstrap bloqueasse aqui esperando a API (migrations +
+    seed + uvicorn de pe), a barra lateral ficava alguns segundos mostrando
+    todas as paginas soltas em vez de so as duas declaradas. As paginas que
+    dependem da API (`api_client.py`) ja tratam `ApiError` de conexao com
+    uma mensagem, entao um primeiro load levemente adiantado e inofensivo."""
     global _started
     with _lock:
         if _started:
@@ -109,10 +149,3 @@ def ensure_backend_running() -> None:
         thread = threading.Thread(target=_run_backend, daemon=True, name="axysai-api")
         thread.start()
         _started = True
-
-        # Espera a API responder antes de liberar a primeira pagina — evita
-        # um "connection refused" cosmetico no primeiro load.
-        for _ in range(30):
-            if _api_already_running(_DEFAULT_API_BASE_URL):
-                break
-            time.sleep(0.5)

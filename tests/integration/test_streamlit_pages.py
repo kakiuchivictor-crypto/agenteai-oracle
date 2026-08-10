@@ -19,15 +19,15 @@ FRONTEND_DIR = Path(__file__).resolve().parents[2] / "frontend" / "streamlit_app
 
 _VISIBLE_PAGES = [
     FRONTEND_DIR / "app.py",
-    FRONTEND_DIR / "pages" / "0_Informacoes.py",
-    FRONTEND_DIR / "pages" / "1_Chat.py",
+    FRONTEND_DIR / "app_pages" / "0_Informacoes.py",
+    FRONTEND_DIR / "app_pages" / "1_Chat.py",
 ]
 
 _HIDDEN_PAGES = [
-    FRONTEND_DIR / "pages" / "2_Documentos.py",
-    FRONTEND_DIR / "pages" / "3_Curadoria.py",
-    FRONTEND_DIR / "pages" / "4_Configuracoes.py",
-    FRONTEND_DIR / "pages" / "5_Painel.py",
+    FRONTEND_DIR / "app_pages" / "2_Documentos.py",
+    FRONTEND_DIR / "app_pages" / "3_Curadoria.py",
+    FRONTEND_DIR / "app_pages" / "4_Configuracoes.py",
+    FRONTEND_DIR / "app_pages" / "5_Painel.py",
 ]
 
 
