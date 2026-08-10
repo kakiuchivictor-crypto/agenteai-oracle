@@ -9,6 +9,13 @@
 # sucesso foi deslocado para um tom mais "floresta" (menos azulado) para nao
 # colidir visualmente com o novo acento.
 
+[server]
+# Desliga o watcher de arquivos (auto-reload em mudanca de codigo) — inutil
+# em producao (o codigo so muda via novo deploy) e o container do Streamlit
+# Community Cloud tem um limite baixo de inotify watches, que o watcher
+# estoura e spamma o log com tracebacks (nao derruba o app, mas polui).
+fileWatcherType = "none"
+
 [theme]
 font = "sans-serif"
 headingFont = "serif"
